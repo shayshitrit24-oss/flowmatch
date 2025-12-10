@@ -1,21 +1,1127 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlowMatch</title>
-<style>
-body { font-family: Arial, sans-serif; direction: rtl; padding: 40px; background: #f5f5f5; }
-.container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 10px; }
-h1 { color: #0ca6a6; }
-p { font-size: 18px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowMatch - הפלטפורמה המובילה לטיפולים פארא-רפואיים</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-<h1>ברוך הבא ל‑FlowMatch</h1>
-<p>זהו דף הדגמה בסיסי שהוכן כדי שתוכל להעלות אותו ל‑GitHub Pages.</p>
-<p>ברגע שתרצה — אשלב כאן את העיצוב האמיתי שלך.</p>
+<header class="header">
+    <div class="header-content">
+        <div class="logo-section" onclick="navigateToPage('home')">
+            <div class="logo">FM</div>
+            <div class="brand-info">
+                <h1>FlowMatch</h1>
+                <div class="brand-tagline">הפלטפורמה המובילה לטיפולים פארא-רפואיים</div>
+            </div>
+        </div>
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="navigateToPage('home')">🏠 דף הבית</button>
+            <button class="nav-tab" onclick="navigateToPage('search')">🔍 חיפוש</button>
+            <button class="nav-tab" onclick="navigateToPage('therapist')">👨‍⚕️ למטפלים</button>
+            <button class="nav-tab" onclick="navigateToPage('contact')">📞 צור קשר</button>
+        </nav>
+        <div style="position: relative;">
+            <button class="btn-primary" onclick="toggleMenu()">☰ תפריט</button>
+            <div id="dropdown-menu" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border: 2px solid #e2e8f0; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: 90%; max-width: 400px; z-index: 2000;">
+                <div style="padding: 24px; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h3 style="font-size: 22px; font-weight: 800; color: #1a202c;">תפריט ניווט</h3>
+                        <button onclick="toggleMenu()" style="background: #f7fafc; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 20px; color: #4a5568;">×</button>
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #718096; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">ניווט ראשי</div>
+                        <button onclick="navigateToPage('home'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s; margin-bottom: 4px;">🏠 דף הבית</button>
+                        <button onclick="navigateToPage('search'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s; margin-bottom: 4px;">🔍 חיפוש מטפלים</button>
+                        <button onclick="navigateToPage('therapist'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s;">👨‍⚕️ ממשק מטפל</button>
+                    </div>
+
+                    <div style="height: 2px; background: #e2e8f0; margin: 16px 0;"></div>
+
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #718096; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">הרשמות</div>
+                        <button onclick="navigateToPage('register-patient'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s; margin-bottom: 4px;">📝 הרשמת מטופל</button>
+                        <button onclick="navigateToPage('register-therapist'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s;">👨‍⚕️ הרשמת מטפל</button>
+                    </div>
+
+                    <div style="height: 2px; background: #e2e8f0; margin: 16px 0;"></div>
+
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 12px; font-weight: 700; color: #718096; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">ביטוח</div>
+                        <button onclick="navigateToPage('insurance'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s; margin-bottom: 4px;">🏥 טופס ביטוח</button>
+                        <button onclick="navigateToPage('insurance-ready'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s;">✅ ביטוח מוכן לשליחה</button>
+                    </div>
+
+                    <div style="height: 2px; background: #e2e8f0; margin: 16px 0;"></div>
+
+                    <button onclick="navigateToPage('contact'); toggleMenu();" style="width: 100%; text-align: right; padding: 14px 16px; border: none; background: transparent; cursor: pointer; border-radius: 10px; font-size: 16px; font-weight: 600; color: #1a202c; transition: all 0.2s;">📞 צור קשר</button>
+                </div>
+            </div>
+            <div id="menu-overlay" onclick="toggleMenu()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999;"></div>
+        </div>
+    </div>
+</header>
+
+<!-- HOME PAGE -->
+<div id="page-home" class="page-container active">
+    <section class="hero-section">
+        <h2>מוצאים את המטפל הנכון, מיד</h2>
+        <p>קלינאות תקשורת • פיזיותרפיה • ריפוי בעיסוק • תזונה • פסיכולוגיה<br>קרוב לבית • זמין עכשיו • עם דירוגים אמיתיים</p>
+        <div class="cta-buttons">
+            <button class="btn-large primary" onclick="navigateToPage('search')">🔍 חפש מטפלים עכשיו</button>
+            <button class="btn-large secondary" onclick="switchHomeTab('providers')">👨‍⚕️ אני מטפל/ת</button>
+        </div>
+    </section>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchHomeTab('patients')">👥 למטופלים</button>
+        <button class="tab-btn" onclick="switchHomeTab('providers')">👨‍⚕️ למטפלים</button>
+    </div>
+
+    <div id="patients-tab" class="tab-content active">
+        <div class="highlights">
+            <div class="highlight-card">
+                <div class="highlight-icon">🗺️</div>
+                <h4>חיפוש חכם</h4>
+                <p>מטפלים מומחים קרובים אליך עם זמינות בזמן אמת ודירוגים מאומתים</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">⭐</div>
+                <h4>דירוגים אמיתיים</h4>
+                <p>ביקורות מאומתות ממטופלים אמיתיים - שקיפות מלאה</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">📊</div>
+                <h4>ניהול מרוכז</h4>
+                <p>כל המטפלים, הטיפולים והתשלומים במקום אחד</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">⏰</div>
+                <h4>תורים מהירים</h4>
+                <p>מערכת תורים חכמה עם תזכורות - לא תפספסו אף טיפול</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="providers-tab" class="tab-content">
+        <div class="control-message">
+            <h3>💡 הרעיון המרכזי</h3>
+            <p><strong>אנחנו לא מביאים לך עוד עומס</strong></p>
+            <p><strong>אנחנו נותנים לך שליטה</strong></p>
+            <div class="subtitle">המערכת מאפשרת לבחור בדיוק איזה מטופלים את/ה רוצה, מתי, מאיזה אזור, מאיזה גיל, ובאיזו בעיה.<br>התחל/י או צמצמ/י בקצב שלך — הכול בשליטתך.</div>
+        </div>
+
+        <div class="highlights">
+            <div class="highlight-card">
+                <div class="highlight-icon">🎯</div>
+                <h4>שליטה מלאה</h4>
+                <p>אתם קובעים: כמה מטופלים, מתי, מאיזה גיל, ואילו בעיות אתם מטפלים</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">📍</div>
+                <h4>פניות מותאמות</h4>
+                <p>רק פניות שמתאימות בדיוק למה שהגדרתם - לא יותר, לא פחות</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">📊</div>
+                <h4>ניהול חכם</h4>
+                <p>CRM מקצועי, לוח שנה אוטומטי, ודוחות - כל הכלים במקום אחד</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">🚀</div>
+                <h4>גדלו בקצב שלכם</h4>
+                <p>מתחילים? צמצום? התרחבות? אתם שולטים על הקצב</p>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h3>🎛️ דוגמה לבקרות שתקבלו</h3>
+            <div class="control-grid">
+                <div class="control-item">
+                    <h5>📊 כמות מטופלים</h5>
+                    <p>הגדירו כמה מטופלים חדשים אתם רוצים החודש</p>
+                </div>
+                <div class="control-item">
+                    <h5>👶 גילאי מטופלים</h5>
+                    <p>בחרו טווח גילאים: תינוקות, ילדים, מתבגרים, מבוגרים</p>
+                </div>
+                <div class="control-item">
+                    <h5>🎯 תת-התמחויות</h5>
+                    <p>סננו לפי סוג הבעיה שאתם מומחים בה</p>
+                </div>
+                <div class="control-item">
+                    <h5>📍 אזור עבודה</h5>
+                    <p>הגדירו מרחק מקסימלי או אזורים ספציפיים</p>
+                </div>
+                <div class="control-item">
+                    <h5>📅 זמני עבודה</h5>
+                    <p>הגדירו ימים, שעות ועדיפות לתורים</p>
+                </div>
+                <div class="control-item">
+                    <h5>🏠 סוג טיפול</h5>
+                    <p>קליניקה, ביקור בית, אונליין - או שילוב</p>
+                </div>
+                <div class="control-item">
+                    <h5>✉️ פניות</h5>
+                    <p>החלטה אוטומטית או אישור ידני לכל פנייה</p>
+                </div>
+                <div class="control-item">
+                    <h5>🔕 השהיה</h5>
+                    <p>השהו פניות כשאתם עמוסים - חזרו מתי שנוח</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- SEARCH PAGE -->
+<div id="page-search" class="page-container">
+    <section class="hero-section">
+        <h2>מצא את המטפל המושלם לך</h2>
+        <p>אלפי מטפלים מנוסים • זמינות בזמן אמת • דירוגים אמיתיים</p>
+    </section>
+
+    <div style="max-width: 1200px; margin: 0 auto 40px; background: white; border-radius: 20px; padding: 40px 32px; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 24px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-size: 14px; font-weight: 600; color: #4a5568;">🩺 סוג הטיפול</label>
+                <select style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; color: #2d3748; font-size: 15px; font-family: inherit;">
+                    <option value="">בחר סוג טיפול</option>
+                    <option value="speech">קלינאות תקשורת</option>
+                    <option value="physio">פיזיותרפיה</option>
+                    <option value="ot">ריפוי בעיסוק</option>
+                    <option value="nutrition">תזונה קלינית</option>
+                    <option value="psychology">פסיכולוגיה</option>
+                    <option value="dev-therapy">טיפול התפתחותי</option>
+                </select>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-size: 14px; font-weight: 600; color: #4a5568;">📍 איזור</label>
+                <select style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; color: #2d3748; font-size: 15px; font-family: inherit;">
+                    <option value="">כל הארץ</option>
+                    <option value="tel-aviv">תל אביב והמרכז</option>
+                    <option value="jerusalem">ירושלים והסביבה</option>
+                    <option value="haifa">חיפה והצפון</option>
+                    <option value="beer-sheva">באר שבע והדרום</option>
+                </select>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-size: 14px; font-weight: 600; color: #4a5568;">👶 קבוצת גיל</label>
+                <select style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; color: #2d3748; font-size: 15px; font-family: inherit;">
+                    <option value="">כל הגילאים</option>
+                    <option value="baby">תינוקות (0-2)</option>
+                    <option value="toddler">גיל הרך (2-5)</option>
+                    <option value="child">ילדים (6-12)</option>
+                    <option value="teen">מתבגרים (13-18)</option>
+                    <option value="adult">מבוגרים (18+)</option>
+                </select>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="font-size: 14px; font-weight: 600; color: #4a5568;">📅 זמינות</label>
+                <select style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 10px; padding: 14px 16px; color: #2d3748; font-size: 15px; font-family: inherit;">
+                    <option value="">לא משנה</option>
+                    <option value="today">היום</option>
+                    <option value="week">השבוע</option>
+                    <option value="month">החודש</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="background: #f7fafc; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+            <h3 style="font-size: 16px; font-weight: 700; color: #2d3748; margin-bottom: 16px;">⚙️ סינון מתקדם</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                    <span style="font-size: 14px; font-weight: 500; color: #4a5568;">טיפול אונליין</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                    <span style="font-size: 14px; font-weight: 500; color: #4a5568;">ביקור בית</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                    <span style="font-size: 14px; font-weight: 500; color: #4a5568;">חניה זמינה</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                    <span style="font-size: 14px; font-weight: 500; color: #4a5568;">נגיש</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                    <span style="font-size: 14px; font-weight: 500; color: #4a5568;">דובר אנגלית</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                    <span style="font-size: 14px; font-weight: 500; color: #4a5568;">שעות ערב</span>
+                </label>
+            </div>
+        </div>
+
+        <button onclick="alert('מבצע חיפוש...')" style="width: 100%; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 18px; border-radius: 12px; border: none; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3); transition: all 0.2s;">🔍 חפש מטפלים</button>
+    </div>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 32px 60px;">
+        <h3 style="font-size: 24px; font-weight: 700; margin-bottom: 24px; color: #1a202c;">תוצאות החיפוש</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px;">
+
+            <div style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 28px rgba(0, 0, 0, 0.12)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='#e2e8f0'">
+                <div style="display: flex; gap: 16px; margin-bottom: 18px;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: white; flex-shrink: 0;">ש</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 19px; font-weight: 700; color: #1a202c; margin-bottom: 6px;">ד״ר שרה כהן</h4>
+                        <div style="color: #718096; font-size: 14px; font-weight: 500; margin-bottom: 8px;">קלינאות תקשורת • הפרעות שפה</div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="color: #fbbf24; font-size: 16px;">★★★★★</span>
+                            <span style="font-weight: 600; color: #1a202c;">4.9</span>
+                            <span style="color: #718096; font-size: 13px; font-weight: 500;">(124 ביקורות)</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 18px 0;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #3b82f6; font-size: 16px;">📍</span>
+                        <span>1.2 ק״מ ממך</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #3b82f6; font-size: 16px;">📅</span>
+                        <span>תור קרוב: היום 16:00</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #3b82f6; font-size: 16px;">💰</span>
+                        <span>₪280 לטיפול</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #3b82f6; font-size: 16px;">🎓</span>
+                        <span>15 שנות ניסיון</span>
+                    </div>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0;">
+                    <span style="background: #ebf8ff; border: 1px solid #90cdf4; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #2c5282; font-weight: 600;">ביקור בית</span>
+                    <span style="background: #ebf8ff; border: 1px solid #90cdf4; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #2c5282; font-weight: 600;">טיפול אונליין</span>
+                    <span style="background: #ebf8ff; border: 1px solid #90cdf4; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #2c5282; font-weight: 600;">חניה</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px;">
+                    <button onclick="alert('צפייה בפרופיל')" style="background: white; border: 2px solid #3b82f6; color: #3b82f6; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;">צפה בפרופיל</button>
+                    <button onclick="alert('קביעת תור')" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 12px; border-radius: 10px; border: none; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;">קבע תור</button>
+                </div>
+            </div>
+
+            <div style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; transition: all 0.3s; cursor: pointer;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 28px rgba(0, 0, 0, 0.12)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='#e2e8f0'">
+                <div style="display: flex; gap: 16px; margin-bottom: 18px;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: white; flex-shrink: 0;">ל</div>
+                    <div style="flex: 1;">
+                        <h4 style="font-size: 19px; font-weight: 700; color: #1a202c; margin-bottom: 6px;">ליאור אברהם</h4>
+                        <div style="color: #718096; font-size: 14px; font-weight: 500; margin-bottom: 8px;">פיזיותרפיה • אורתופדיה</div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="color: #fbbf24; font-size: 16px;">★★★★★</span>
+                            <span style="font-weight: 600; color: #1a202c;">4.8</span>
+                            <span style="color: #718096; font-size: 13px; font-weight: 500;">(89 ביקורות)</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 18px 0;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #10b981; font-size: 16px;">📍</span>
+                        <span>800 מ׳ ממך</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #10b981; font-size: 16px;">📅</span>
+                        <span>תור קרוב: מחר 09:00</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #10b981; font-size: 16px;">💰</span>
+                        <span>₪250 לטיפול</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; color: #4a5568; font-size: 14px; font-weight: 500;">
+                        <span style="color: #10b981; font-size: 16px;">🎓</span>
+                        <span>10 שנות ניסיון</span>
+                    </div>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0;">
+                    <span style="background: #f0fdf4; border: 1px solid #86efac; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #166534; font-weight: 600;">נגיש</span>
+                    <span style="background: #f0fdf4; border: 1px solid #86efac; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #166534; font-weight: 600;">שעות ערב</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px;">
+                    <button onclick="alert('צפייה בפרופיל')" style="background: white; border: 2px solid #10b981; color: #10b981; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;">צפה בפרופיל</button>
+                    <button onclick="alert('קביעת תור')" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 12px; border-radius: 10px; border: none; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s;">קבע תור</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- THERAPIST DASHBOARD -->
+<div id="page-therapist" class="page-container">
+    <div style="background: white; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); padding: 20px 0;">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="font-weight: 700; color: #1a202c; font-size: 18px;">ד״ר שרה כהן</div>
+                <div style="font-size: 12px; color: #718096;">קלינאות תקשורת</div>
+            </div>
+            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px;">ש</div>
+        </div>
+    </div>
+
+    <section class="hero-section">
+        <h2>שלום, ד״ר שרה 👋</h2>
+        <p>סטטוס: פעילה • 5 פניות חדשות • 12 תורים השבוע</p>
+    </section>
+
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 32px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;">
+            <div style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; text-align: center;">
+                <div style="font-size: 32px; margin-bottom: 12px;">📅</div>
+                <div style="font-size: 32px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">12</div>
+                <div style="color: #718096; font-size: 14px; font-weight: 600;">תורים השבוע</div>
+            </div>
+            <div style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; text-align: center;">
+                <div style="font-size: 32px; margin-bottom: 12px;">✉️</div>
+                <div style="font-size: 32px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">5</div>
+                <div style="color: #718096; font-size: 14px; font-weight: 600;">פניות חדשות</div>
+            </div>
+            <div style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; text-align: center;">
+                <div style="font-size: 32px; margin-bottom: 12px;">⭐</div>
+                <div style="font-size: 32px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">4.9</div>
+                <div style="color: #718096; font-size: 14px; font-weight: 600;">דירוג ממוצע</div>
+            </div>
+            <div style="background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; text-align: center;">
+                <div style="font-size: 32px; margin-bottom: 12px;">👥</div>
+                <div style="font-size: 32px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">45</div>
+                <div style="color: #718096; font-size: 14px; font-weight: 600;">מטופלים פעילים</div>
+            </div>
+        </div>
+
+        <div style="background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 32px; margin-bottom: 32px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="font-size: 24px; font-weight: 700;">📅 לוח שנה שבועי • מפת חום</h3>
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="alert('שבוע קודם')" style="background: #f7fafc; border: 2px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">← שבוע הבא</button>
+                    <button onclick="alert('שבוע הבא')" style="background: #f7fafc; border: 2px solid #e2e8f0; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: 600;">שבוע קודם →</button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px;">
+                <div onclick="alert('לחצת על יום א')" style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">יום א׳</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">3/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #fecaca, #fca5a5); color: #991b1b;">עמוס מאוד</div>
+                </div>
+                <div onclick="alert('לחצת על יום ב')" style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">יום ב׳</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">4/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e;">בינוני</div>
+                </div>
+                <div onclick="alert('לחצת על יום ג')" style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">יום ג׳</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">5/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af;">רגוע</div>
+                </div>
+                <div style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">יום ד׳</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">6/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e;">בינוני</div>
+                </div>
+                <div style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">יום ה׳</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">7/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #fecaca, #fca5a5); color: #991b1b;">עמוס</div>
+                </div>
+                <div style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">יום ו׳</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">8/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af;">סגור</div>
+                </div>
+                <div style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 16px; text-align: center;">
+                    <div style="font-size: 12px; color: #718096; font-weight: 600; margin-bottom: 8px;">שבת</div>
+                    <div style="font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px;">9/12</div>
+                    <div style="width: 100%; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af;">סגור</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 32px; margin-bottom: 60px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="font-size: 24px; font-weight: 700;">✉️ פניות חדשות</h3>
+                <span style="background: #3b82f6; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">5 חדשות</span>
+            </div>
+
+            <div style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                    <div>
+                        <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">משפחת אברהם - עומר (גיל 5)</h4>
+                        <div style="color: #718096; font-size: 14px;">📍 2.3 ק״מ ממך • 🎯 עיכוב שפה • ⏰ מעדיפים אחה״צ<br>💬 "מחפשים קלינאית תקשורת מנוסה לבן שלנו"</div>
+                    </div>
+                    <div style="background: #3b82f6; color: white; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700;">לפני שעה</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px;">
+                    <button onclick="alert('פנייה אושרה')" style="padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; background: linear-gradient(135deg, #10b981, #059669); color: white;">✓ אשר</button>
+                    <button onclick="alert('פנייה הושהתה')" style="padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">⏸ השהה</button>
+                    <button onclick="alert('יצירת קשר')" style="padding: 10px; border-radius: 8px; border: 2px solid #3b82f6; font-weight: 700; font-size: 13px; cursor: pointer; background: white; color: #3b82f6;">💬 צור קשר</button>
+                    <button onclick="alert('פנייה נדחתה')" style="padding: 10px; border-radius: 8px; border: 2px solid #e2e8f0; font-weight: 700; font-size: 13px; cursor: pointer; background: #f7fafc; color: #718096;">✕ דחה</button>
+                </div>
+            </div>
+
+            <div style="background: #f7fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+                    <div>
+                        <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">משפחת כהן - נעמה (גיל 8)</h4>
+                        <div style="color: #718096; font-size: 14px;">📍 1.5 ק״מ ממך • 🎯 דיסלקציה • ⏰ בוקר<br>💬 "דחוף - מחפשים טיפול בקריאה וכתיבה"</div>
+                    </div>
+                    <div style="background: #3b82f6; color: white; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700;">לפני 3 שעות</div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px;">
+                    <button onclick="alert('פנייה אושרה')" style="padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; background: linear-gradient(135deg, #10b981, #059669); color: white;">✓ אשר</button>
+                    <button onclick="alert('פנייה הושהתה')" style="padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">⏸ השהה</button>
+                    <button onclick="alert('יצירת קשר')" style="padding: 10px; border-radius: 8px; border: 2px solid #3b82f6; font-weight: 700; font-size: 13px; cursor: pointer; background: white; color: #3b82f6;">💬 צור קשר</button>
+                    <button onclick="alert('פנייה נדחתה')" style="padding: 10px; border-radius: 8px; border: 2px solid #e2e8f0; font-weight: 700; font-size: 13px; cursor: pointer; background: #f7fafc; color: #718096;">✕ דחה</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page-container">
+    <section class="hero-section">
+        <h2>נשמח לעמוד לשירותכם</h2>
+        <p>צוות FlowMatch כאן כדי לעזור. צרו איתנו קשר בכל דרך שנוחה לכם</p>
+    </section>
+
+    <section class="contact-grid">
+        <div class="contact-card">
+            <div class="contact-icon">📧</div>
+            <h3>דוא״ל</h3>
+            <p>שלחו לנו הודעה ונחזור אליכם תוך 24 שעות</p>
+            <a href="mailto:info@flowmatch.co.il" class="contact-link">info@flowmatch.co.il</a>
+        </div>
+        <div class="contact-card">
+            <div class="contact-icon">📞</div>
+            <h3>טלפון</h3>
+            <p>שירות לקוחות זמין בימים א׳-ה׳ 9:00-18:00</p>
+            <a href="tel:035551234" class="contact-link">03-555-1234</a>
+        </div>
+        <div class="contact-card">
+            <div class="contact-icon">💬</div>
+            <h3>WhatsApp</h3>
+            <p>צ׳אט ישיר עם הצוות - תגובה מהירה</p>
+            <a href="https://wa.me/972501234567" target="_blank" class="contact-link">שלח הודעה</a>
+        </div>
+    </section>
+
+    <section class="founders-section">
+        <h2>המייסדים</h2>
+        <div class="founders-grid">
+            <div class="founder-card">
+                <div class="founder-avatar">A</div>
+                <h4>אביב כהן</h4>
+                <div class="role">מייסד שותף & CEO</div>
+                <p>יזם טכנולוגי עם ניסיון של 10+ שנים בפיתוח פלטפורמות דיגיטליות. בעבר ניהל מוצר בחברות Healthtech מובילות.</p>
+            </div>
+            <div class="founder-card">
+                <div class="founder-avatar">ש</div>
+                <h4>שרה לוי</h4>
+                <div class="role">מייסדת שותפה & CPO</div>
+                <p>קלינאית תקשורת במקצועה עם 15 שנות ניסיון. הבינה את הצורך האמיתי של מטפלים ומטופלים מניסיון אישי.</p>
+            </div>
+            <div class="founder-card">
+                <div class="founder-avatar">D</div>
+                <h4>דניאל רוזנברג</h4>
+                <div class="role">מייסד שותף & CTO</div>
+                <p>מפתח Full-Stack ומומחה UI/UX. בעבר Team Lead בחברות SaaS מובילות. מאמין בעיצוב ממוקד משתמש.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="address-section">
+        <div class="address-card">
+            <h3>📍 כתובת המשרדים</h3>
+            <p><strong>FlowMatch Ltd.</strong><br>רחוב רוטשילד 22<br>תל אביב-יפו 6688222<br>ישראל</p>
+        </div>
+    </section>
+</div>
+
+<!-- REGISTER PATIENT PAGE -->
+<div id="page-register-patient" class="page-container">
+    <div style="background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%); color: white; padding: 40px; text-align: center;">
+        <div style="font-size: 3em; margin-bottom: 15px;">⚡</div>
+        <h1 style="margin-bottom: 15px; font-size: 2.5em;">הרשמה למערכת FlowMatch</h1>
+        <p style="font-size: 1.3em; margin-bottom: 15px; font-weight: 500;">הטיפול המתאים ביותר עבורך</p>
+        <div style="background: rgba(255,255,255,0.2); padding: 12px 25px; border-radius: 25px; display: inline-block; margin-top: 10px;">
+            <p style="font-size: 1em; margin: 0; opacity: 1;">⏱️ השקעה של דקה כעת תחסוך לך שעות בעתיד</p>
+        </div>
+    </div>
+
+    <div style="max-width: 900px; margin: 0 auto; padding: 40px 32px;">
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #00d2ff; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 1.8em; color: #3a47d5; margin-bottom: 25px; display: flex; align-items: center; gap: 10px;"><span style="width: 8px; height: 30px; background: #00d2ff; border-radius: 4px;"></span>פרטים אישיים</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">שם פרטי *</label>
+                    <input type="text" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">שם משפחה *</label>
+                    <input type="text" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">תעודת זהות *</label>
+                    <input type="text" maxlength="9" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">תאריך לידה *</label>
+                    <input type="date" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">טלפון *</label>
+                    <input type="tel" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">אימייל *</label>
+                    <input type="email" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">כתובת מלאה *</label>
+                <input type="text" required style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;">
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">סוג הטיפול הנדרש *</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        פיזיותרפיה
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        ריפוי בעיסוק
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        קלינאות תקשורת
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        תזונה קלינית
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        פסיכולוגיה
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        אחר
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <label style="font-weight: 600; margin-bottom: 8px; color: #333; font-size: 0.95em;">רקע רפואי רלוונטי</label>
+                <textarea style="resize: vertical; min-height: 100px; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; transition: all 0.3s; font-family: inherit;" placeholder="תאר בקצרה את הבעיה הרפואית..."></textarea>
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #00d2ff; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 1.8em; color: #3a47d5; margin-bottom: 25px; display: flex; align-items: center; gap: 10px;"><span style="width: 8px; height: 30px; background: #00d2ff; border-radius: 4px;"></span>פרטי ביטוח</h2>
+
+            <p style="margin-bottom: 20px; font-size: 1.05em; color: #555;">בחר את האפשרות המתאימה לך:</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                <div onclick="alert('נבחר: יש לי ביטוח')" style="border: 3px solid #00d2ff; background: white; padding: 25px; border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">✅</div>
+                    <h3 style="color: #3a47d5; margin-bottom: 10px;">יש לי ביטוח פרטי</h3>
+                    <p style="color: #666; font-size: 0.9em;">מלא פרטי ביטוח קיים</p>
+                </div>
+
+                <div onclick="alert('נבחר: אין לי ביטוח')" style="border: 3px solid #e0e0e0; background: white; padding: 25px; border-radius: 15px; cursor: pointer; text-align: center; transition: all 0.3s;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">💡</div>
+                    <h3 style="color: #3a47d5; margin-bottom: 10px;">אין לי ביטוח</h3>
+                    <p style="color: #666; font-size: 0.9em;">אשמח להצעה מותאמת</p>
+                </div>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #e0e0e0;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: 600; margin-bottom: 8px; color: #333;">חברת ביטוח *</label>
+                        <select style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                            <option value="">בחר חברה</option>
+                            <option>כלל ביטוח</option>
+                            <option>מכבי שירותי בריאות</option>
+                            <option>הראל</option>
+                            <option>מגדל</option>
+                            <option>מנורה מבטחים</option>
+                            <option>הפניקס</option>
+                            <option>איילון</option>
+                            <option>אחר</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: 600; margin-bottom: 8px; color: #333;">מספר פוליסה *</label>
+                        <input type="text" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="alert('הטופס נשלח בהצלחה!')" style="background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%); color: white; border: none; padding: 18px 50px; border-radius: 12px; cursor: pointer; font-size: 1.3em; font-weight: 600; width: 100%; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4);">שלח בקשה 🚀</button>
+    </div>
+</div>
+
+<!-- REGISTER THERAPIST PAGE -->
+<div id="page-register-therapist" class="page-container">
+    <div style="background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%); color: white; padding: 40px; text-align: center;">
+        <div style="font-size: 3em; margin-bottom: 15px;">🎯</div>
+        <h1 style="font-size: 2.5em; margin-bottom: 15px;">הרשמת מטפל למערכת FlowMatch</h1>
+        <p style="font-size: 1.3em;">הפלטפורמה המתקדמת להתאמת מטופלים</p>
+        <div style="background: rgba(255,255,255,0.2); padding: 12px 25px; border-radius: 25px; display: inline-block; margin-top: 15px;">
+            <p style="font-size: 1em; margin: 0;">⏱️ תהליך של דקה שיחסוך לך שעות עבודה</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 25px; max-width: 900px; margin-left: auto; margin-right: auto;">
+            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2em; margin-bottom: 8px;">📊</div>
+                <div style="font-size: 0.9em;">ניהול חשיפה</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2em; margin-bottom: 8px;">🧾</div>
+                <div style="font-size: 0.9em;">ניהול חשבוניות</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2em; margin-bottom: 8px;">📋</div>
+                <div style="font-size: 0.9em;">סיוע בבירוקרטיה</div>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; text-align: center;">
+                <div style="font-size: 2em; margin-bottom: 8px;">🤝</div>
+                <div style="font-size: 0.9em;">התאמה אוטומטית</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="max-width: 1000px; margin: 0 auto; padding: 40px 32px;">
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #00d2ff; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 1.8em; color: #3a47d5; margin-bottom: 25px;">פרטים אישיים ומקצועיים</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">שם פרטי *</label>
+                    <input type="text" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">שם משפחה *</label>
+                    <input type="text" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">ת.ז *</label>
+                    <input type="text" maxlength="9" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">מס' רישיון *</label>
+                    <input type="text" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">טלפון *</label>
+                    <input type="tel" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">אימייל *</label>
+                    <input type="email" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label style="font-weight: 600; margin-bottom: 8px;">כתובת מרפאה *</label>
+                <input type="text" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #00d2ff; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 1.8em; color: #3a47d5; margin-bottom: 25px;">פרופיל מקצועי</h2>
+            <div style="background: #ebf8ff; border-radius: 12px; padding: 20px; margin-bottom: 20px; border-right: 4px solid #3b82f6;">
+                <strong>💡 טיפ:</strong> פרופיל מקיף יעזור למטופלים למצוא אותך
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 8px;">תחום התמחות *</label>
+                <select style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                    <option value="">בחר</option>
+                    <option>פיזיותרפיה</option>
+                    <option>ריפוי בעיסוק</option>
+                    <option>קלינאות תקשורת</option>
+                    <option>תזונה קלינית</option>
+                    <option>פסיכולוגיה</option>
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">שנות ניסיון *</label>
+                    <select style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                        <option>0-2 שנים</option>
+                        <option>3-5 שנים</option>
+                        <option>6-10 שנים</option>
+                        <option>11-20 שנים</option>
+                        <option>20+ שנים</option>
+                    </select>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <label style="font-weight: 600; margin-bottom: 8px;">השכלה *</label>
+                    <select style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                        <option>תואר ראשון</option>
+                        <option>תואר שני</option>
+                        <option>דוקטורט</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 8px;">אודות *</label>
+                <textarea style="resize: vertical; min-height: 100px; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;" placeholder="ספר על עצמך והגישה הטיפולית..."></textarea>
+            </div>
+
+            <div style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                <label style="font-weight: 600; margin-bottom: 8px;">השירותים שלי</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        טיפולים
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        אבחונים
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        ייעוצים
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        סדנאות
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <label style="font-weight: 600; margin-bottom: 8px;">שפות</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 10px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        עברית
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        אנגלית
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        רוסית
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" style="width: 18px; height: 18px; accent-color: #3b82f6;">
+                        ערבית
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #00d2ff; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 1.8em; color: #3a47d5; margin-bottom: 25px;">מחירון</h2>
+            <div style="background: white; padding: 20px; border-radius: 12px; border: 2px solid #e0e0e0; margin-bottom: 15px;">
+                <strong style="display: block; margin-bottom: 15px;">מחיר #1</strong>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: 600; margin-bottom: 8px;">סוג טיפול</label>
+                        <input type="text" placeholder="למשל: טיפול בודד" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="font-weight: 600; margin-bottom: 8px;">מחיר (₪)</label>
+                        <input type="number" placeholder="250" style="padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; font-family: inherit;">
+                    </div>
+                </div>
+            </div>
+            <button onclick="alert('הוספת מחיר נוסף')" style="background: #48dbfb; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 600; transition: all 0.3s; width: 100%;">➕ הוסף מחיר</button>
+        </div>
+
+        <button onclick="alert('ההרשמה נשלחה בהצלחה!')" style="background: linear-gradient(135deg, #00d2ff 0%, #3a47d5 100%); color: white; border: none; padding: 20px 60px; border-radius: 12px; cursor: pointer; font-size: 1.4em; font-weight: 600; width: 100%; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4);">שלח הרשמה 🚀</button>
+    </div>
+</div>
+
+<!-- INSURANCE PAGE -->
+<div id="page-insurance" class="page-container">
+    <div style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 32px; text-align: center;">
+        <h1 style="font-size: 28px; margin-bottom: 8px; font-weight: 700;">📋 טופס מאוחד להגשת תביעה לביטוח</h1>
+        <p style="font-size: 15px; opacity: 0.95;">טופס אחד לכל חברות הביטוח - מהיר, פשוט ונוח</p>
+    </div>
+
+    <div style="max-width: 900px; margin: 0 auto; padding: 40px 32px;">
+        <div style="background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 3px solid #10b981; border-radius: 20px; padding: 32px; margin-bottom: 40px;">
+            <h3 style="color: #10b981; font-size: 24px; margin-bottom: 16px; font-weight: 800;">💡 מידע חשוב לפני תחילת המילוי:</h3>
+            <ul style="margin-right: 20px; color: #1a202c; line-height: 1.8;">
+                <li style="margin-bottom: 8px;">טופס זה תקף לכל חברות הביטוח המשלים בישראל</li>
+                <li style="margin-bottom: 8px;">יש למלא את כל השדות המסומנים בכוכבית (*)</li>
+                <li style="margin-bottom: 8px;">ניתן לשמור טיוטה ולחזור למילוי מאוחר יותר</li>
+                <li style="margin-bottom: 8px;">מומלץ לצרף קבלות ואישורים בפורמט PDF או תמונה</li>
+                <li>זמן מילוי משוער: 5-10 דקות</li>
+            </ul>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #3b82f6; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;">👤 פרטי המבוטח/ת</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>שם פרטי</label>
+                    <input type="text" required placeholder="הזן שם פרטי" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit; transition: all 0.2s;">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>שם משפחה</label>
+                    <input type="text" required placeholder="הזן שם משפחה" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>תעודת זהות</label>
+                    <input type="text" required placeholder="9 ספרות" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>טלפון נייד</label>
+                    <input type="tel" required placeholder="05X-XXXXXXX" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #3b82f6; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;">📄 פרטי פוליסת הביטוח</h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>חברת ביטוח</label>
+                    <select required style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                        <option value="">בחר חברת ביטוח</option>
+                        <option>כלל ביטוח</option>
+                        <option>מגדל</option>
+                        <option>מנורה מבטחים</option>
+                        <option>הפניקס</option>
+                        <option>הראל</option>
+                        <option>איילון</option>
+                        <option>ביטוח ישיר</option>
+                    </select>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>מספר פוליסה</label>
+                    <input type="text" required placeholder="הזן מספר פוליסה" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #3b82f6; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;">💊 פרטי הטיפולים</h2>
+
+            <div style="background: #f7fafc; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 2px solid #e2e8f0;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>סוג טיפול</label>
+                        <select required style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                            <option value="">בחר סוג טיפול</option>
+                            <option>קלינאות תקשורת</option>
+                            <option>פיזיותרפיה</option>
+                            <option>ריפוי בעיסוק</option>
+                            <option>פסיכולוגיה</option>
+                            <option>תזונה קלינית</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>שם המטפל/ת</label>
+                        <input type="text" required placeholder="שם מלא" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>מספר טיפולים</label>
+                        <input type="number" required min="1" placeholder="כמה טיפולים" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label style="font-weight: 600; color: #4a5568; font-size: 14px;"><span style="color: #e53e3e; margin-left: 4px;">*</span>עלות לטיפול (₪)</label>
+                        <input type="number" required min="0" placeholder="סכום בשקלים" style="padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; font-family: inherit;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #f8f9fa; border-radius: 15px; border-right: 5px solid #3b82f6; padding: 30px; margin-bottom: 40px;">
+            <h2 style="font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0;">📎 העלאת מסמכים</h2>
+
+            <div style="border: 3px dashed #00d2ff; background: #f0f9ff; padding: 30px; border-radius: 12px; text-align: center; cursor: pointer; margin-bottom: 15px;">
+                <div style="font-size: 48px; margin-bottom: 12px;">📄</div>
+                <div style="font-weight: 600; color: #4a5568; margin-bottom: 6px;">לחץ להעלאת קבלות</div>
+                <div style="font-size: 13px; color: #718096;">PDF, JPG או PNG - עד 10MB לקובץ</div>
+            </div>
+        </div>
+
+        <div style="background: #f7fafc; padding: 32px; border-radius: 12px; margin-top: 40px; text-align: center;">
+            <div style="display: flex; align-items: flex-start; gap: 12px; justify-content: center; margin-bottom: 24px; text-align: right;">
+                <input type="checkbox" id="terms" style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: #3b82f6;">
+                <label for="terms" style="color: #4a5568; font-size: 14px; line-height: 1.6; cursor: pointer;">
+                    אני מאשר/ת כי כל הפרטים שמסרתי נכונים ומדויקים, וידוע לי כי מסירת מידע כוזב עלולה להוביל לפסילת התביעה.
+                </label>
+            </div>
+
+            <button onclick="alert('התביעה נשלחה בהצלחה!')" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; border: none; padding: 16px 48px; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3); transition: all 0.2s;">📤 הגש תביעה</button>
+        </div>
+    </div>
+</div>
+
+<!-- INSURANCE READY PAGE -->
+<div id="page-insurance-ready" class="page-container">
+    <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);">
+        <div>
+            <h1 style="font-size: 26px; margin-bottom: 8px; font-weight: 700;">✅ הטופס שלך מוכן לשליחה!</h1>
+            <p style="font-size: 15px; opacity: 0.95;">כל הפרטים מולאו אוטומטית על סמך המידע מהמערכת</p>
+        </div>
+        <div style="font-size: 64px;">🎉</div>
+    </div>
+
+    <div style="max-width: 1000px; margin: 0 auto; padding: 32px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px;">
+            <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); border-right: 4px solid #3b82f6;">
+                <h3 style="color: #3b82f6; font-size: 14px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">📋 תביעה עבור</h3>
+                <p style="color: #1a202c; font-size: 18px; font-weight: 700;">שרה כהן</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); border-right: 4px solid #3b82f6;">
+                <h3 style="color: #3b82f6; font-size: 14px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">🏥 חברת ביטוח</h3>
+                <p style="color: #1a202c; font-size: 18px; font-weight: 700;">כלל ביטוח</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); border-right: 4px solid #3b82f6;">
+                <h3 style="color: #3b82f6; font-size: 14px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">💰 סכום מבוקש</h3>
+                <p style="color: #1a202c; font-size: 18px; font-weight: 700;">₪1,400</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06); border-right: 4px solid #3b82f6;">
+                <h3 style="color: #3b82f6; font-size: 14px; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">⏱️ זמן עיבוד משוער</h3>
+                <p style="color: #1a202c; font-size: 18px; font-weight: 700;">5-7 ימים</p>
+            </div>
+        </div>
+
+        <div style="background: white; border-radius: 16px; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08); overflow: hidden; margin-bottom: 24px;">
+            <div style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 28px 40px; display: flex; align-items: center; justify-content: space-between;">
+                <h2 style="font-size: 24px; font-weight: 700;">📄 טופס תביעה מס׳ 2024-12345</h2>
+                <div style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 600; border: 2px solid rgba(255, 255, 255, 0.3);">✓ מוכן לשליחה</div>
+            </div>
+
+            <div style="padding: 40px;">
+                <div style="margin-bottom: 36px; padding-bottom: 36px; border-bottom: 2px solid #f7fafc;">
+                    <div style="position: relative;">
+                        <h3 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">👤 פרטי המבוטח/ת</h3>
+                        <button onclick="alert('מעבר למצב עריכה')" style="position: absolute; top: 12px; left: 12px; background: #f7fafc; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; color: #4a5568;">✏️ ערוך</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                        <div style="background: #f7fafc; padding: 16px; border-radius: 10px; border: 2px solid #e2e8f0;">
+                            <div style="font-size: 12px; color: #718096; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">שם מלא</div>
+                            <div style="font-size: 16px; color: #1a202c; font-weight: 600;">שרה כהן</div>
+                        </div>
+                        <div style="background: #f7fafc; padding: 16px; border-radius: 10px; border: 2px solid #e2e8f0;">
+                            <div style="font-size: 12px; color: #718096; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">תעודת זהות</div>
+                            <div style="font-size: 16px; color: #1a202c; font-weight: 600;">123456789</div>
+                        </div>
+                        <div style="background: #f7fafc; padding: 16px; border-radius: 10px; border: 2px solid #e2e8f0;">
+                            <div style="font-size: 12px; color: #718096; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">טלפון</div>
+                            <div style="font-size: 16px; color: #1a202c; font-weight: 600;">054-1234567</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 36px; padding-bottom: 36px; border-bottom: 2px solid #f7fafc;">
+                    <h3 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">💊 פירוט הטיפולים</h3>
+                    <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #7dd3fc; border-radius: 12px; padding: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 2px solid #bae6fd;">
+                            <div style="font-size: 20px; font-weight: 700; color: #0c4a6e;">🗣️ קלינאות תקשורת</div>
+                            <div style="font-size: 24px; font-weight: 800; color: #0ea5e9;">₪1,400</div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                            <div style="background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 4px;">שם המטפל/ת</div>
+                                <div style="font-size: 14px; color: #0f172a; font-weight: 600;">ד"ר מיכל לוי</div>
+                            </div>
+                            <div style="background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 4px;">מספר טיפולים</div>
+                                <div style="font-size: 14px; color: #0f172a; font-weight: 600;">5 מפגשים</div>
+                            </div>
+                            <div style="background: white; padding: 12px; border-radius: 8px;">
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 4px;">מחיר לטיפול</div>
+                                <div style="font-size: 14px; color: #0f172a; font-weight: 600;">₪280</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); border: 3px solid #fbbf24; border-radius: 16px; padding: 28px; margin: 32px 0;">
+                    <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px dashed #f59e0b;">
+                        <span style="font-size: 16px; color: #78350f; font-weight: 600;">סה"כ טיפולים:</span>
+                        <span style="font-size: 18px; color: #78350f; font-weight: 700;">5 מפגשים</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px dashed #f59e0b;">
+                        <span style="font-size: 16px; color: #78350f; font-weight: 600;">עלות כוללת:</span>
+                        <span style="font-size: 18px; color: #78350f; font-weight: 700;">₪1,400</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 16px 0; margin-top: 8px; border-top: 3px solid #f59e0b;">
+                        <span style="font-size: 22px; color: #78350f; font-weight: 800;">💰 צפי להחזר (80%):</span>
+                        <span style="font-size: 22px; color: #78350f; font-weight: 800;">₪1,120</span>
+                    </div>
+                </div>
+
+                <div style="background: #f7fafc; padding: 32px; border-radius: 12px; text-align: center;">
+                    <div style="background: white; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: right;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <input type="checkbox" id="consent-ready" style="width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: #10b981;">
+                            <label for="consent-ready" style="cursor: pointer;">
+                                <strong>אני מאשר/ת:</strong><br>
+                                • כי כל הפרטים שלעיל נכונים ומדויקים<br>
+                                • כי קראתי והבנתי את תנאי הגשת התביעה<br>
+                                • כי אני מסכים/ה לשיתוף המידע עם חברת הביטוח
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="alert('✅ התביעה נשלחה בהצלחה!\n\nמספר תביעה: CL-2024-789456\nזמן עיבוד משוער: 5-7 ימי עסקים')" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 16px 48px; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3); transition: all 0.2s; display: flex; align-items: center; gap: 12px; margin: 0 auto;">
+                        <span>🚀</span>
+                        <span>שלח תביעה עכשיו</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACT PAGE -->
+    <div class="footer-content">
+        <div>© FlowMatch 2025 • בנוי בישראל 🇮🇱</div>
+        <div>
+            <a href="#terms">תנאי שימוש</a>
+            <a href="#privacy">פרטיות</a>
+            <a href="#" onclick="navigateToPage('contact'); return false;">צור קשר</a>
+        </div>
+    </div>
+</footer>
+
+
+<script src="script.js"></script>
 </body>
 </html>

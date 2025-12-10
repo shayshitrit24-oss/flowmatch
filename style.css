@@ -1,0 +1,109 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%); color: #1a202c; min-height: 100vh; }
+        
+        /* Header */
+        .header { background: white; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08); padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+        .header-content { max-width: 1400px; margin: 0 auto; padding: 0 32px; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; }
+        .logo-section { display: flex; align-items: center; gap: 16px; cursor: pointer; }
+        .logo { width: 56px; height: 56px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: white; font-size: 24px; box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3); }
+        .brand-info h1 { font-size: 28px; font-weight: 800; color: #1a202c; margin-bottom: 2px; }
+        .brand-tagline { font-size: 13px; color: #718096; font-weight: 500; }
+        .nav-tabs { display: flex; gap: 8px; background: #f7fafc; padding: 6px; border-radius: 12px; }
+        .nav-tab { padding: 14px 24px; border-radius: 10px; border: none; background: transparent; color: #718096; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+        .nav-tab:hover { background: white; color: #1a202c; }
+        .nav-tab.active { background: white; color: #3b82f6; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 12px 28px; border-radius: 10px; border: none; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4); }
+        
+        /* Pages */
+        .page-container { display: none; }
+        .page-container.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Hero */
+        .hero-section { text-align: center; padding: 80px 32px 60px; max-width: 1400px; margin: 0 auto; }
+        .hero-section h2 { font-size: 48px; font-weight: 800; color: #1a202c; margin-bottom: 20px; line-height: 1.2; }
+        .hero-section p { color: #718096; font-size: 20px; margin-bottom: 48px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        
+        /* Buttons */
+        .cta-buttons { display: flex; gap: 20px; justify-content: center; margin-top: 40px; flex-wrap: wrap; }
+        .btn-large { padding: 20px 48px; font-size: 20px; font-weight: 800; border-radius: 14px; border: none; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block; }
+        .btn-large.primary { background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4); }
+        .btn-large.primary:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(59, 130, 246, 0.5); }
+        .btn-large.secondary { background: white; border: 3px solid #3b82f6; color: #3b82f6; }
+        .btn-large.secondary:hover { background: #3b82f6; color: white; }
+        
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 16px; margin: 60px auto 48px; max-width: 600px; padding: 0 32px; }
+        .tab-btn { flex: 1; padding: 18px 24px; border-radius: 12px; border: 2px solid #e2e8f0; background: white; color: #718096; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .tab-btn:hover { border-color: #3b82f6; transform: translateY(-2px); }
+        .tab-btn.active { background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-color: transparent; color: white; box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4); }
+        .tab-content { display: none; max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+        .tab-content.active { display: block; }
+        
+        /* Cards */
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin: 48px 0; }
+        .highlight-card { background: white; border: 2px solid #e2e8f0; border-radius: 16px; padding: 32px; text-align: center; transition: all 0.3s; }
+        .highlight-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); border-color: #3b82f6; }
+        .highlight-icon { font-size: 56px; margin-bottom: 16px; }
+        .highlight-card h4 { font-size: 20px; margin-bottom: 12px; color: #1a202c; font-weight: 700; }
+        .highlight-card p { font-size: 15px; color: #718096; line-height: 1.6; }
+        
+        /* Control Panel */
+        .control-message { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 3px solid #10b981; border-radius: 20px; padding: 48px; margin: 48px 0; text-align: center; }
+        .control-message h3 { color: #10b981; font-size: 36px; margin-bottom: 20px; font-weight: 800; }
+        .control-message p { font-size: 20px; line-height: 1.8; color: #1a202c; margin-bottom: 16px; }
+        .control-message .subtitle { font-size: 18px; color: #718096; margin-top: 24px; }
+        .control-panel { background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 40px; margin: 40px 0; }
+        .control-panel h3 { color: #3b82f6; font-size: 28px; margin-bottom: 32px; text-align: center; font-weight: 800; }
+        .control-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .control-item { background: #f7fafc; padding: 20px; border-radius: 12px; border: 2px solid #e2e8f0; transition: all 0.2s; cursor: pointer; }
+        .control-item:hover { border-color: #3b82f6; transform: translateY(-2px); }
+        .control-item h5 { color: #1a202c; margin-bottom: 10px; font-size: 16px; font-weight: 700; }
+        .control-item p { color: #718096; font-size: 13px; line-height: 1.5; }
+        
+        /* Contact */
+        .contact-grid { max-width: 1200px; margin: 0 auto; padding: 0 32px 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; }
+        .contact-card { background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 40px; text-align: center; transition: all 0.3s; }
+        .contact-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); border-color: #3b82f6; }
+        .contact-icon { width: 80px; height: 80px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 24px; }
+        .contact-card h3 { font-size: 24px; color: #1a202c; margin-bottom: 12px; font-weight: 700; }
+        .contact-card p { color: #718096; margin-bottom: 24px; line-height: 1.6; }
+        .contact-link { display: inline-block; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 14px 32px; border-radius: 12px; text-decoration: none; font-weight: 700; transition: all 0.2s; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+        .contact-link:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4); }
+        
+        /* Founders */
+        .founders-section { max-width: 1200px; margin: 0 auto; padding: 0 32px 80px; }
+        .founders-section h2 { font-size: 36px; font-weight: 800; text-align: center; color: #1a202c; margin-bottom: 48px; }
+        .founders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+        .founder-card { background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 32px; text-align: center; transition: all 0.3s; }
+        .founder-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); }
+        .founder-avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 800; color: white; margin: 0 auto 20px; }
+        .founder-card h4 { font-size: 22px; color: #1a202c; margin-bottom: 8px; font-weight: 700; }
+        .founder-card .role { color: #3b82f6; font-weight: 600; margin-bottom: 16px; }
+        .founder-card p { color: #718096; line-height: 1.6; font-size: 14px; }
+        
+        /* Address */
+        .address-section { max-width: 800px; margin: 0 auto; padding: 0 32px 80px; text-align: center; }
+        .address-card { background: white; border: 2px solid #e2e8f0; border-radius: 20px; padding: 40px; }
+        .address-card h3 { font-size: 28px; color: #1a202c; margin-bottom: 24px; font-weight: 700; }
+        .address-card p { color: #4a5568; font-size: 18px; line-height: 1.8; }
+        
+        /* Footer */
+        footer { background: white; margin-top: 100px; padding: 40px 32px; border-top: 2px solid #e2e8f0; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        footer a { text-decoration: none; color: #718096; margin-left: 24px; transition: color 0.3s; font-weight: 600; }
+        footer a:hover { color: #3b82f6; }
+        
+        /* Dropdown menu hover effect */
+        #dropdown-menu button:hover {
+            background: linear-gradient(135deg, #ebf8ff, #e0f2fe) !important;
+            color: #3b82f6 !important;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .nav-tabs { display: none; }
+            .hero-section h2 { font-size: 32px; }
+            .btn-large { width: 100%; max-width: 350px; }
+        }
