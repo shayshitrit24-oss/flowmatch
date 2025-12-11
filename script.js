@@ -1,398 +1,258 @@
+/* ----------------------------------
+   FLOWMATCH V3 – SCRIPT
+   ---------------------------------- */
+
 document.addEventListener("DOMContentLoaded", () => {
+
+  /* ------------------------------
+     VIEWS NAVIGATION
+  ------------------------------ */
   const views = document.querySelectorAll(".view");
   const navButtons = document.querySelectorAll("[data-view]");
-  const startParentButtons = document.querySelectorAll(".js-start-parent");
-  const startTherapistButtons = document.querySelectorAll(".js-start-therapist");
-  const backHomeButtons = document.querySelectorAll(".js-back-home");
 
   function showView(id) {
-    views.forEach((v) => v.classList.toggle("active", v.id === id));
+    views.forEach(v => v.classList.toggle("active", v.id === id));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  navButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const view = btn.getAttribute("data-view");
-      if (view) showView(view);
-    });
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => showView(btn.dataset.view));
   });
 
-  startParentButtons.forEach((btn) =>
-    btn.addEventListener("click", () => showView("parent-flow"))
-  );
-  startTherapistButtons.forEach((btn) =>
-    btn.addEventListener("click", () => showView("therapist-flow"))
-  );
-  backHomeButtons.forEach((btn) =>
-    btn.addEventListener("click", () => {
-      const view = btn.getAttribute("data-view") || "landing";
-      showView(view);
-    })
-  );
+  document.querySelectorAll(".js-start-parent")
+    .forEach(btn => btn.addEventListener("click", () => showView("parent-flow")));
 
-  /* Step navigation */
-  function wireSteps(formIdPrefix) {
-    const form = document.getElementById(`${formIdPrefix}-form`);
-    if (!form) return;
+  document.querySelectorAll(".js-start-therapist")
+    .forEach(btn => btn.addEventListener("click", () => showView("therapist-flow")));
 
-    const nextButtons = form.querySelectorAll(".js-next-step");
-    const prevButtons = form.querySelectorAll(".js-prev-step");
-    const stepperItems = document.querySelectorAll(
-      `[data-step-label^='${formIdPrefix === "parent" ? "p" : "t"}-step']`
-    );
+  document.querySelectorAll(".js-back-home")
+    .forEach(btn => btn.addEventListener("click", () => showView("landing")));
 
-    function setActiveStep(stepId) {
-      const panels = form.querySelectorAll(".step-panel");
-      panels.forEach((p) => p.classList.toggle("active", p.id === stepId));
-      stepperItems.forEach((item) => {
-        const label = item.getAttribute("data-step-label");
-        item.classList.toggle("active", label === stepId);
-      });
-      window.scrollTo({ top: 0, behavior: "smooth" });
+
+  /* ------------------------------
+     STEPPER LOGIC
+  ------------------------------ */
+  function wireSteps(prefix) {
+    const nextBtns = document.querySelectorAll(`#${prefix}-form .js-next-step`);
+    const prevBtns = document.querySelectorAll(`#${prefix}-form .js-prev-step`);
+    const stepItems = document.querySelectorAll(`[data-step-label^='${prefix[0]}-step']`);
+
+    function activate(stepId) {
+      const panels = document.querySelectorAll(`#${prefix}-form .step-panel`);
+      panels.forEach(p => p.classList.toggle("active", p.id === stepId));
+
+      stepItems.forEach(i =>
+        i.classList.toggle("active", i.dataset.stepLabel === stepId)
+      );
     }
 
-    nextButtons.forEach((btn) =>
-      btn.addEventListener("click", () => {
-        const nextId = btn.getAttribute("data-next");
-        if (nextId) setActiveStep(nextId);
-      })
+    nextBtns.forEach(btn =>
+      btn.addEventListener("click", () => activate(btn.dataset.next))
     );
-    prevButtons.forEach((btn) =>
-      btn.addEventListener("click", () => {
-        const prevId = btn.getAttribute("data-prev");
-        if (prevId) setActiveStep(prevId);
-      })
+    prevBtns.forEach(btn =>
+      btn.addEventListener("click", () => activate(btn.dataset.prev))
     );
   }
 
   wireSteps("parent");
   wireSteps("therapist");
 
-  /* Chips */
+
+  /* ------------------------------
+     CHIP GROUPS
+  ------------------------------ */
   function initChipGroups() {
     const groups = document.querySelectorAll(".chip-group");
-    groups.forEach((group) => {
-      const name = group.getAttribute("data-name");
-      if (!name) return;
-      const hiddenInput = document.querySelector(`input[name="${name}"]`);
-      if (!hiddenInput) return;
+    groups.forEach(group => {
+      const name = group.dataset.name;
+      const hidden = document.querySelector(`input[name="${name}"]`);
+      if (!hidden) return;
 
-      group.addEventListener("click", (e) => {
-        if (!(e.target instanceof HTMLElement)) return;
+      group.addEventListener("click", e => {
         const chip = e.target.closest(".chip");
         if (!chip) return;
-
         chip.classList.toggle("active");
-        const activeValues = Array.from(group.querySelectorAll(".chip.active")).map(
-          (c) => c.textContent?.trim() || ""
-        );
-        hiddenInput.value = activeValues.join("|");
+
+        const values = Array.from(group.querySelectorAll(".chip.active"))
+          .map(c => c.textContent.trim());
+
+        hidden.value = values.join("|");
       });
     });
   }
-
   initChipGroups();
 
-  /* Parent: dynamic sub-specialties */
-  const parentMainTreatment = document.getElementById("parent-main-treatment");
-  const parentSubSpecialty = document.getElementById("parent-sub-specialty");
 
-  const subSpecialtiesMap = {
-    speech: [
-      "עיכוב שפתי",
-      "גמגום",
-      "קשיי היגוי",
-      "עיבוד שמיעתי",
-      "תקשורת חברתית",
-      "הזנה ואכילה",
-      "תקשורת תומכת וחליפית (AAC)",
-    ],
-    ot: [
-      "ויסות חושי",
-      "מוטוריקה עדינה",
-      "מוטוריקה גסה",
-      "גרפומוטוריקה",
-      "תפקודי יום-יום (ADL)",
-      "עבודה עם ASD",
-      "מיומנויות כיתה א׳",
-    ],
-    physio: [
-      "פיזיותרפיה תינוקות",
-      "פיזיותרפיה נשימתית",
-      "פציעות ספורט ילדים",
-      "שיקום לאחר פגיעה",
-      "טיפול ביציבה",
-    ],
-    emotional: [
-      "טיפול במשחק",
-      "טיפול באמצעות אמנות",
-      "ויסות רגשי",
-      "חרדות ילדים",
-      "טיפול דיאדי הורה-ילד",
-    ],
-    psychology: [
-      "פסיכולוגיה התפתחותית",
-      "פסיכולוגיה חינוכית",
-      "CBT לילדים",
-      "טיפול משפחתי",
-      "טיפול בנוער עם חרדה",
-    ],
-  };
-
-  function refreshSubSpecialties() {
-    if (!parentMainTreatment || !parentSubSpecialty) return;
-    const key = parentMainTreatment.value;
-    const list = subSpecialtiesMap[key] || [];
-    parentSubSpecialty.innerHTML = '<option value="">בחרו תת-התמחות (אופציונלי)</option>';
-    list.forEach((item) => {
-      const opt = document.createElement("option");
-      opt.value = item;
-      opt.textContent = item;
-      parentSubSpecialty.appendChild(opt);
-    });
-  }
-
-  if (parentMainTreatment) {
-    parentMainTreatment.addEventListener("change", refreshSubSpecialties);
-  }
-
-  /* Parent: find match -> show results panel */
-  const parentForm = document.getElementById("parent-form");
-  const parentResultsPanel = document.getElementById("p-results");
-  const findMatchBtn = parentForm?.querySelector(".js-find-match");
-  const restartBtn = parentForm?.querySelector(".js-restart-parent");
-  const notRelevantBtn = parentForm?.querySelector(".js-not-relevant");
-  const notRelevantMsg = document.getElementById("not-relevant-msg");
-  const bookingToast = document.getElementById("booking-toast");
-
-  function showParentResults() {
-    if (!parentForm || !parentResultsPanel) return;
-    const panels = parentForm.querySelectorAll(".step-panel");
-    panels.forEach((p) => p.classList.remove("active"));
-    parentResultsPanel.classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  if (findMatchBtn) {
-    findMatchBtn.addEventListener("click", () => {
-      showParentResults();
-    });
-  }
-
-  if (restartBtn && parentForm) {
-    restartBtn.addEventListener("click", () => {
-      // Reset fields (דמו בסיסי)
-      parentForm.reset();
-      parentResultsPanel?.classList.remove("active");
-      const firstStep = parentForm.querySelector("#p-step-1");
-      if (firstStep) firstStep.classList.add("active");
-
-      const stepperItems = document.querySelectorAll("[data-step-label^='p-step']");
-      stepperItems.forEach((item) => {
-        item.classList.toggle("active", item.getAttribute("data-step-label") === "p-step-1");
-      });
-
-      if (notRelevantMsg) notRelevantMsg.style.display = "none";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-  if (notRelevantBtn && notRelevantMsg) {
-    notRelevantBtn.addEventListener("click", () => {
-      notRelevantMsg.style.display = "block";
-    });
-  }
-
-  /* Parent results: book & details */
-  if (parentResultsPanel) {
-    parentResultsPanel.addEventListener("click", (e) => {
-      if (!(e.target instanceof HTMLElement)) return;
-      const btn = e.target.closest(".result-btn");
-      if (!btn) return;
-      const action = btn.getAttribute("data-action");
-      const card = btn.closest(".result-card");
-      if (!card) return;
-
-      if (action === "book") {
-        if (bookingToast) {
-          bookingToast.classList.add("visible");
-          setTimeout(() => {
-            bookingToast.classList.remove("visible");
-          }, 2600);
-        }
-      } else if (action === "details") {
-        const extra = card.querySelector(".extra-details");
-        if (extra) extra.classList.toggle("active");
-      }
-    });
-  }
-
-  /* Insurance module */
-
-  const policyFileInput = document.getElementById("policy-file");
-  const policyStatus = document.getElementById("policy-status");
-  const aiConsent = document.getElementById("ai-consent");
-  const analyzePolicyBtn = document.getElementById("analyze-policy-btn");
-  const policyAnalysisBox = document.getElementById("policy-analysis-box");
-
-  if (policyFileInput && policyStatus) {
-    policyFileInput.addEventListener("change", () => {
-      if (policyFileInput.files && policyFileInput.files.length > 0) {
-        policyStatus.textContent = `הקובץ "${policyFileInput.files[0].name}" נטען (דמו).`;
-      } else {
-        policyStatus.textContent = "לא הועלה קובץ.";
-      }
-    });
-  }
-
-  if (analyzePolicyBtn && policyAnalysisBox) {
-    policyAnalysisBox.style.display = "none";
-
-    analyzePolicyBtn.addEventListener("click", () => {
-      if (!aiConsent || !aiConsent.checked) {
-        alert("יש לסמן הסכמה לניתוח הפוליסה (דמו) לפני ההמשך.");
-        return;
-      }
-      if (!policyFileInput || !policyFileInput.files || policyFileInput.files.length === 0) {
-        alert("יש להעלות קובץ פוליסה (גם לצורך הדגמה).");
-        return;
-      }
-      policyAnalysisBox.style.display = "block";
-      window.scrollTo({ top: policyAnalysisBox.offsetTop - 80, behavior: "smooth" });
-    });
-  }
-
-  /* No policy form */
-
-  const noPolicyForm = document.getElementById("no-policy-form");
-  const noPolicySuccess = document.getElementById("no-policy-success");
-
-  if (noPolicyForm && noPolicySuccess) {
-    noPolicySuccess.style.display = "none";
-
-    noPolicyForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      noPolicyForm.style.display = "none";
-      noPolicySuccess.style.display = "block";
-    });
-  }
-
-  /* Therapist form submit -> success */
-
-  function wireFormSubmit(formId, successId) {
-    const form = document.getElementById(formId);
-    const successEl = document.getElementById(successId);
-    if (!form || !successEl) return;
-
-    successEl.style.display = "none";
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const panels = form.querySelectorAll(".step-panel");
-      panels.forEach((p) => (p.style.display = "none"));
-      const steppers =
-        formId === "therapist-form"
-          ? document.querySelectorAll("[data-step-label^='t-step']")
-          : document.querySelectorAll("[data-step-label^='p-step']");
-      steppers.forEach((item) => item.classList.remove("active"));
-
-      successEl.style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-  wireFormSubmit("therapist-form", "therapist-success");
-
-  /* Autocomplete for cities (דמו) */
-
-  const cities = [
-    "אילת",
-    "אשדוד",
-    "אשקלון",
-    "באר שבע",
-    "בת ים",
-    "גבעתיים",
-    "הרצליה",
-    "חדרה",
-    "חולון",
-    "חיפה",
-    "טבריה",
-    "יבנה",
-    "יהוד",
-    "ירושלים",
-    "כפר סבא",
-    "כרמיאל",
-    "מודיעין",
-    "נס ציונה",
-    "נהריה",
-    "נתניה",
-    "עפולה",
-    "פתח תקווה",
-    "צפת",
-    "קריית אונו",
-    "קריית גת",
-    "קריית שמונה",
-    "ראש העין",
-    "ראשון לציון",
-    "רחובות",
-    "רמלה",
-    "רמת גן",
-    "רעננה",
-    "תל אביב",
+  /* ------------------------------
+     AUTOCOMPLETE CITY LIST
+  ------------------------------ */
+  const cityList = [
+    "תל אביב", "חיפה", "ירושלים", "רחובות", "ראשון לציון", "נס ציונה",
+    "רעננה", "הרצליה", "הוד השרון", "מודיעין", "אשדוד", "אשקלון",
+    "נתניה", "גבעתיים", "פתח תקווה", "באר שבע", "קריית אונו",
+    "קריית גת", "מעלה אדומים", "אילת", "קריית שמונה"
   ];
 
-  function initAutocomplete() {
-    const inputs = document.querySelectorAll('input[data-autocomplete="city"]');
-    inputs.forEach((input) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "autocomplete-wrapper";
-      const parent = input.parentElement;
-      if (!parent) return;
-      parent.replaceChild(wrapper, input);
-      wrapper.appendChild(input);
-
-      const list = document.createElement("div");
-      list.className = "autocomplete-list";
-      list.style.display = "none";
-      wrapper.appendChild(list);
+  document.querySelectorAll("input[name='location'], input[name='areas']")
+    .forEach(input => {
+      const box = document.createElement("div");
+      box.className = "autocomplete-box";
+      input.parentElement.appendChild(box);
 
       input.addEventListener("input", () => {
-        const value = input.value.trim();
-        if (!value) {
-          list.style.display = "none";
-          list.innerHTML = "";
-          return;
-        }
-        const lower = value.toLowerCase();
-        const matches = cities.filter((city) => city.toLowerCase().includes(lower));
-        if (matches.length === 0) {
-          list.style.display = "none";
-          list.innerHTML = "";
-          return;
-        }
-        list.innerHTML = "";
-        matches.forEach((city) => {
+        const val = input.value.trim();
+        if (!val) return (box.style.display = "none");
+
+        const results = cityList.filter(c => c.includes(val));
+        box.innerHTML = "";
+        results.forEach(city => {
           const item = document.createElement("div");
           item.className = "autocomplete-item";
           item.textContent = city;
-          item.addEventListener("click", () => {
+          item.onclick = () => {
             input.value = city;
-            list.style.display = "none";
-            list.innerHTML = "";
-          });
-          list.appendChild(item);
+            box.style.display = "none";
+          };
+          box.appendChild(item);
         });
-        list.style.display = "block";
-      });
 
-      document.addEventListener("click", (e) => {
-        if (!(e.target instanceof Node)) return;
-        if (!wrapper.contains(e.target)) {
-          list.style.display = "none";
-        }
+        box.style.display = results.length ? "block" : "none";
+      });
+    });
+
+
+  /* ------------------------------
+     PARENT: SUB SPECIALTY
+  ------------------------------ */
+  const parentMain = document.getElementById("parent-main-treatment");
+  const parentSub = document.getElementById("parent-sub-specialty");
+
+  const subs = {
+    speech: ["עיכוב שפתי", "היגוי", "גמגום", "AAC"],
+    ot: ["ויסות חושי", "מוטוריקה עדינה", "גרפומוטוריקה"],
+    physio: ["פיזיותרפיה תינוקות", "שיקום"],
+    emotional: ["טיפול במשחק", "אמנות"],
+    psychology: ["CBT", "התפתחותי"]
+  };
+
+  if (parentMain) {
+    parentMain.addEventListener("change", () => {
+      parentSub.innerHTML = `<option value="">בחרו תת-התמחות</option>`;
+      const list = subs[parentMain.value] || [];
+      list.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item;
+        opt.textContent = item;
+        parentSub.appendChild(opt);
       });
     });
   }
 
-  initAutocomplete();
+
+  /* ------------------------------
+     INSURANCE DEMO LOGIC
+  ------------------------------ */
+  const radios = document.querySelectorAll("input[name='has_insurance']");
+  const secYes = document.querySelector(".insurance-section[data-insurance='yes']");
+  const secNo = document.querySelector(".insurance-section[data-insurance='no']");
+  const policyInput = document.getElementById("policy-file");
+  const policyStatus = document.getElementById("policy-status");
+
+  function updateInsurance() {
+    const selected = [...radios].find(r => r.checked)?.value;
+    secYes.style.display = selected === "yes" ? "block" : "none";
+    secNo.style.display = selected === "no" ? "block" : "none";
+  }
+  radios.forEach(r => r.addEventListener("change", updateInsurance));
+
+  if (policyInput) {
+    policyInput.addEventListener("change", () => {
+      if (policyInput.files.length) {
+        policyStatus.textContent =
+          `הקובץ "${policyInput.files[0].name}" התקבל (דמו – AI ינתח).`;
+      }
+    });
+  }
+
+
+  /* ------------------------------
+     FORM SUBMISSION (DEMO)
+  ------------------------------ */
+  function wireFormSubmit(id, successId) {
+    const form = document.getElementById(id);
+    const success = document.getElementById(successId);
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      success.style.display = "block";
+      form.querySelectorAll(".step-panel").forEach(p => (p.style.display = "none"));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  wireFormSubmit("parent-form", "parent-success");
+  wireFormSubmit("therapist-form", "therapist-success");
+
+
+  /* ------------------------------
+     SEARCH RESULTS DEMO
+  ------------------------------ */
+  const sampleTherapists = [
+    {
+      name: "יעל לוי – קלינאית תקשורת",
+      exp: "12 שנות ניסיון",
+      price: "240 ₪ לפגישה",
+      distance: "2.1 ק״מ ממך",
+      specialty: "עיכוב שפתי, היגוי",
+    },
+    {
+      name: "מיכל רון – ריפוי בעיסוק",
+      exp: "8 שנות ניסיון",
+      price: "210 ₪",
+      distance: "3.4 ק״מ",
+      specialty: "ויסות חושי, מוטוריקה עדינה"
+    }
+  ];
+
+  const resultsBox = document.getElementById("results-list");
+  const popup = document.getElementById("popup-backdrop");
+  const popupPanel = document.getElementById("popup-panel");
+
+  if (resultsBox) {
+    sampleTherapists.forEach(t => {
+      const div = document.createElement("div");
+      div.className = "result-card";
+      div.innerHTML = `
+        <h4>${t.name}</h4>
+        <p>${t.exp}</p>
+        <p><strong>${t.price}</strong></p>
+        <p>${t.distance}</p>
+      `;
+      div.onclick = () => showTherapistPopup(t);
+      resultsBox.appendChild(div);
+    });
+  }
+
+  function showTherapistPopup(t) {
+    popupPanel.innerHTML = `
+      <h3>${t.name}</h3>
+      <p>${t.exp}</p>
+      <p>${t.specialty}</p>
+      <p><strong>${t.price}</strong></p>
+
+      <button class="primary-btn" id="book-btn">קבע תור</button>
+      <button class="secondary-btn" id="close-popup">סגור</button>
+    `;
+
+    popup.style.display = "flex";
+
+    document.getElementById("close-popup").onclick = () => {
+      popup.style.display = "none";
+    };
+
+    document.getElementById("book-btn").onclick = () => {
+      alert("הבקשה נשלחה למטפל. הוא יחזור אליכם בהקדם.");
+      popup.style.display = "none";
+    };
+  }
+
 });
