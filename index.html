@@ -548,6 +548,12 @@
     </footer>
   </div>
 
-  <script src="script.js"></script>
+<script>
+  // אם יש #anything ב-URL, נעיף אותו לפני טעינת ה-JS
+  if (window.location.hash) {
+    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+  }
+</script>
+<script src="script.js"></script>
 </body>
 </html>
