@@ -4,12 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const startParentButtons = document.querySelectorAll(".js-start-parent");
   const startTherapistButtons = document.querySelectorAll(".js-start-therapist");
   const backHomeButtons = document.querySelectorAll(".js-back-home");
+  const goInsuranceButtons = document.querySelectorAll(".js-go-insurance");
 
   function showView(id) {
     views.forEach((v) => v.classList.toggle("active", v.id === id));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  // ניווט כללי לפי data-view
   navButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const view = btn.getAttribute("data-view");
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // CTA מהדף הראשי
   startParentButtons.forEach((btn) =>
     btn.addEventListener("click", () => showView("parent-flow"))
   );
@@ -28,6 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const view = btn.getAttribute("data-view") || "landing";
       showView(view);
     })
+  );
+
+  goInsuranceButtons.forEach((btn) =>
+    btn.addEventListener("click", () => showView("insurance-flow"))
   );
 
   /* Step navigation */
@@ -74,8 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!hiddenInput) return;
 
       group.addEventListener("click", (e) => {
-        if (!(e.target instanceof HTMLElement)) return;
-        const chip = e.target.closest(".chip");
+        const target = e.target;
+        if (!(target instanceof HTMLElement)) return;
+        const chip = target.closest(".chip");
         if (!chip) return;
 
         chip.classList.toggle("active");
@@ -108,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "מוטוריקה עדינה",
       "מוטוריקה גסה",
       "גרפומוטוריקה",
-      "תפקודי יום-יום (ADL)",
+      "תפקודי יום־יום (ADL)",
       "עבודה עם ASD",
       "מיומנויות כיתה א׳",
     ],
@@ -124,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "טיפול באמצעות אמנות",
       "ויסות רגשי",
       "חרדות ילדים",
-      "טיפול דיאדי הורה-ילד",
+      "טיפול דיאדי הורה־ילד",
     ],
     psychology: [
       "פסיכולוגיה התפתחותית",
@@ -139,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!parentMainTreatment || !parentSubSpecialty) return;
     const key = parentMainTreatment.value;
     const list = subSpecialtiesMap[key] || [];
-    parentSubSpecialty.innerHTML = '<option value="">בחרו תת-התמחות (אופציונלי)</option>';
+    parentSubSpecialty.innerHTML = '<option value="">בחרו תת־התמחות (אופציונלי)</option>';
     list.forEach((item) => {
       const opt = document.createElement("option");
       opt.value = item;
@@ -152,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     parentMainTreatment.addEventListener("change", refreshSubSpecialties);
   }
 
-  /* Parent: insurance logic */
+  /* ביטוח */
   const hasInsuranceRadios = document.querySelectorAll("input[name='has_insurance']");
   const insuranceYesSection = document.querySelector(".insurance-section[data-insurance='yes']");
   const insuranceNoSection = document.querySelector(".insurance-section[data-insurance='no']");
@@ -173,23 +181,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   hasInsuranceRadios.forEach((r) => r.addEventListener("change", updateInsuranceSections));
+  updateInsuranceSections();
 
   if (policyFileInput && policyStatus) {
     policyFileInput.addEventListener("change", () => {
       if (policyFileInput.files && policyFileInput.files.length > 0) {
         const fileName = policyFileInput.files[0].name;
         policyStatus.textContent =
-          "הקובץ \"" +
+          'הקובץ "' +
           fileName +
-          '" נטען בהצלחה. ב-MVP אנחנו רק מדמים את תהליך ניתוח הפוליסה.';
+          '" נטען בהצלחה. ב־MVP אנחנו רק מדמים את תהליך ניתוח הפוליסה.';
       } else {
         policyStatus.textContent = "טרם הועלה קובץ.";
       }
     });
   }
 
-  /* Forms submit: prevent real submit, show success box */
-
+  /* Submit forms – מטפל בלבד, הורה מסתיים במסך התאמות */
   function wireFormSubmit(formId, successId) {
     const form = document.getElementById(formId);
     const successEl = document.getElementById(successId);
@@ -197,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      // ב-MVP לא עושים כלום עם הנתונים, רק מציגים הודעת הצלחה
       const panels = form.querySelectorAll(".step-panel");
       panels.forEach((p) => (p.style.display = "none"));
       successEl.style.display = "block";
@@ -205,6 +212,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  wireFormSubmit("parent-form", "parent-success");
   wireFormSubmit("therapist-form", "therapist-success");
 });
